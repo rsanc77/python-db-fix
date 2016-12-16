@@ -1,3 +1,6 @@
 # Log files
 /error_logs.txt
 /std_logs.txt
+
+# ignores settings file
+/settings.ini

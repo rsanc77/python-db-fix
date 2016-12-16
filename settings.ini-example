@@ -1,0 +1,6 @@
+[database]
+host: db_host
+user: db_user
+passw: user_password
+dbase: dbase_name
+poolSize: 40

@@ -1,20 +1,12 @@
 #!/bin/env python
 
-
+import ConfigParser
 import MySQLdb
 import re
 from multiprocessing import Pool
 
-##Db and pool info
-host = 'localhost'
-user = 'username'
-passw = 'username-passw'
-dbase = 'database'
-poolSize = 40
 
-
-
-class omekaTable:
+class DatabaseTable:
     
     def __init__(self, host, user, passwd, dbase):
         try:
@@ -86,10 +78,23 @@ class omekaTable:
         class_name = self.__class__.__name__
        
        
+def get_config(conf_file):
+	conf = ConfigParser.ConfigParser()
+	conf.read(conf_file)
+	res = []
+	
+	res.insert(0, conf.get('database','host'))
+	res.insert(1, conf.get('database','user'))
+	res.insert(2, conf.get('database','passw'))
+	res.insert(3, conf.get('database','dbase'))
+	res.insert(4, conf.get('database','poolSize'))
 
+	return res
+
+conf = get_config("./settings.ini")
 
 def db_tables():         
-    db = MySQLdb.connect(host, user, passw, dbase)
+    db = MySQLdb.connect(conf[0], conf[1], conf[2], conf[3])
 
 
     # prepare a cursor object using cursor() method
@@ -108,20 +113,17 @@ def db_tables():
     return tables
  
 def  table_worker(table):
-    test = omekaTable(host, user, passw, dbase)
+    test = DatabaseTable(conf[0], conf[1], conf[2], conf[3])
     test.processTableColumns(table)
 
 
 def main():
 	try:
 		tables = db_tables()
-		p = Pool(poolSize)
+		p = Pool(int(conf[4]))
 		p.map(table_worker, tables)
 	except Exception as e:
 		print "{0}".format(e)
 	
 if __name__=='__main__':
     main()
-
-
-
