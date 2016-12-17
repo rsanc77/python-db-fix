@@ -9,6 +9,6 @@ END=$(date +%s)
 
 TIME=$((END - START))
 T=$(date -d@$TIME -u +%H:%M:%S)
-echo Time: $T Seconds: $TIME
+echo Time: $T Seconds: $TIME > stats
 
 
