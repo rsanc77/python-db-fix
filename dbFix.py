@@ -23,6 +23,8 @@ class DatabaseTable:
             tdata = self.cursor.fetchall()
         except MySQLdb.Error, e:
             print "MySQL Error [{0}]: {1} in table {2}".format(e.args[0], e.args[1],table)
+        except MySQLdb.Warming, e:
+            print "MySQL warning [{0}]: {1} in table {2}".format(e.args[0], e.args[2], table)
             
         for t in tdata:
             if re.match('text', t[1]):
@@ -49,6 +51,8 @@ class DatabaseTable:
         except MySQLdb.Error, e:
             print "MySQL error [{0}]: {1} in table {2}".format(e.args[0], e.args[1],table)
             pass
+        except Warning, e:
+            print "MySQL warning [{0}]: {1} in table {2}".format(w.args[0], w.args[1], table)
 
 	    
     def changeLTTable(self, table, column, ctype, cbintype):
@@ -71,6 +75,8 @@ class DatabaseTable:
                 self.cursor.execute("""ALTER TABLE `{0}` CHANGE `{1}` `{1}` {2} COLLATE utf8_unicode_ci;""".format(table, column, ctype))
         except MySQLdb.Error, e:
             print "Mysql Error [{0}]: {1} in table {2}".format(e.args[0], e.args[1],table)
+        except Warning, e:
+            print "Mysql Warning [{0}]: {1} in table {2}".format(w.args[0], w.args[1], table)
             pass 
 
 	        
