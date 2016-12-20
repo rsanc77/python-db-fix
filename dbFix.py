@@ -45,9 +45,9 @@ class DatabaseTable:
                  
     def changeTable(self, table, column, ctype, cbintype):
         try:
-		    self.cursor.execute("""ALTER TABLE `{0}` CHANGE `{1}` `{1}` {2} CHARACTER SET latin1 COLLATE latin1_general_ci;""".format(table, column, ctype))
-		    self.cursor.execute("""ALTER TABLE `{0}` CHANGE `{1}` `{1}` {2};""".format(table,column,cbintype))
-		    self.cursor.execute("""ALTER TABLE `{0}` CHANGE `{1}` `{1}` {2} COLLATE utf8_unicode_ci;""".format(table, column, ctype))
+            self.cursor.execute("""ALTER TABLE `{0}` CHANGE `{1}` `{1}` {2} CHARACTER SET latin1 COLLATE latin1_general_ci;""".format(table, column, ctype))
+	    self.cursor.execute("""ALTER TABLE `{0}` CHANGE `{1}` `{1}` {2};""".format(table,column,cbintype))
+	    self.cursor.execute("""ALTER TABLE `{0}` CHANGE `{1}` `{1}` {2} COLLATE utf8_unicode_ci;""".format(table, column, ctype))
         except MySQLdb.Error, e:
             print "MySQL error [{0}]: {1} in table {2}".format(e.args[0], e.args[1],table)
             pass
@@ -63,11 +63,11 @@ class DatabaseTable:
             key_name = x[2]
         try:
             if ftext:
-			    self.cursor.execute("""DROP INDEX `{0}` ON `{1}`;""".format(key_name, table))
-			    self.cursor.execute("""ALTER TABLE `{0}` CHANGE `{1}` `{1}` {2} CHARACTER SET latin1 COLLATE latin1_general_ci;""".format(table, column, ctype))
-			    self.cursor.execute("""ALTER TABLE `{0}` CHANGE `{1}` `{1}` {2};""".format(table,column,cbintype))
-			    self.cursor.execute("""ALTER TABLE `{0}` CHANGE `{1}` `{1}` {2} COLLATE utf8_unicode_ci;""".format(table, column, ctype))
-			    self.cursor.execute("""CREATE FULLTEXT INDEX {1} ON {0}({1});""".format(table,key_name))
+                self.cursor.execute("""DROP INDEX `{0}` ON `{1}`;""".format(key_name, table))
+		self.cursor.execute("""ALTER TABLE `{0}` CHANGE `{1}` `{1}` {2} CHARACTER SET latin1 COLLATE latin1_general_ci;""".format(table, column, ctype))
+		self.cursor.execute("""ALTER TABLE `{0}` CHANGE `{1}` `{1}` {2};""".format(table,column,cbintype))
+		self.cursor.execute("""ALTER TABLE `{0}` CHANGE `{1}` `{1}` {2} COLLATE utf8_unicode_ci;""".format(table, column, ctype))
+		self.cursor.execute("""CREATE FULLTEXT INDEX {1} ON {0}({1});""".format(table,key_name))
                 
             else:
                 self.cursor.execute("""ALTER TABLE `{0}` CHANGE `{1}` `{1}` {2} CHARACTER SET latin1 COLLATE latin1_general_ci;""".format(table, column, ctype))
